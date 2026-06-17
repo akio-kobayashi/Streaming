@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Streaming ASR Client</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="toolbar" aria-label="connection controls">
+        <label>
+          WebSocket
+          <input id="serverUrl" value="ws://127.0.0.1:8000/ws" />
+        </label>
+        <label>
+          Language
+          <select id="language">
+            <option value="ja">ja</option>
+            <option value="en">en</option>
+            <option value="zh">zh</option>
+            <option value="ko">ko</option>
+            <option value="auto">auto</option>
+          </select>
+        </label>
+        <label>
+          Latency
+          <input id="latencyMs" type="number" min="0" step="100" value="1000" />
+        </label>
+        <button id="connectBtn">Connect</button>
+        <button id="recordBtn" disabled>Record</button>
+        <button id="stopBtn" disabled>Stop</button>
+        <span id="status" class="status">idle</span>
+      </section>
+
+      <section class="stage" aria-label="caption preview">
+        <canvas id="spectrogram" width="960" height="180"></canvas>
+        <div id="captionOverlay" class="caption-overlay">
+          <div id="captionLines" class="caption-lines"></div>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="caption controls">
+        <label>
+          Background
+          <input id="captionBg" type="color" value="#000000" />
+        </label>
+        <label>
+          Opacity
+          <input id="captionOpacity" type="range" min="0" max="1" step="0.05" value="0.75" />
+        </label>
+        <label>
+          Text
+          <input id="captionColor" type="color" value="#ffffff" />
+        </label>
+        <label>
+          Unstable
+          <input id="unstableColor" type="color" value="#d0d0d0" />
+        </label>
+        <label>
+          Font
+          <input id="fontSize" type="number" min="16" max="96" value="36" />
+        </label>
+        <label>
+          Lines
+          <input id="lineCount" type="number" min="1" max="5" value="2" />
+        </label>
+        <label>
+          Chars/line
+          <input id="charsPerLine" type="number" min="8" max="60" value="22" />
+        </label>
+      </section>
+
+      <section class="text-pane" aria-label="recognition log">
+        <div id="currentPartial" class="partial"></div>
+        <div id="finalLog" class="final-log"></div>
+      </section>
+
+      <pre id="eventLog" class="event-log"></pre>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

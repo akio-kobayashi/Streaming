@@ -1,0 +1,8 @@
+{
+  "name": "streaming-multilingual-asr-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 5173 -d client/web"
+  }
+}

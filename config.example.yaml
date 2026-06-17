@@ -1,0 +1,38 @@
+audio:
+  sample_rate: 16000
+  channels: 1
+  format: pcm_s16le
+
+streaming:
+  chunk_ms: 50
+  decode_interval_ms: 500
+  latency_ms: 1000
+  window_ms: 15000
+  overlap_ms: 1500
+
+vad:
+  mode: server
+  backend: silero
+  threshold: 0.5
+  min_speech_ms: 250
+  min_silence_ms: 700
+  speech_pad_ms: 200
+
+whisper:
+  backend: faster-whisper
+  model: small
+  language: ja
+  device: auto
+  compute_type: auto
+
+caption:
+  position: bottom
+  background_color: "#000000"
+  background_opacity: 0.75
+  text_color: "#ffffff"
+  unstable_text_color: "#d0d0d0"
+  font_size_px: 36
+  line_count: 2
+  chars_per_line: 22
+  scroll_mode: push_up
+  text_align: center
