@@ -44,6 +44,7 @@ class WhisperConfig:
 
 @dataclass
 class CaptionConfig:
+    mode: str = "quest_passthrough_caption"
     position: str = "bottom"
     background_color: str = "#000000"
     background_opacity: float = 0.75

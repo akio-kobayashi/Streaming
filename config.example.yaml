@@ -26,6 +26,7 @@ whisper:
   compute_type: auto
 
 caption:
+  mode: quest_passthrough_caption
   position: bottom
   background_color: "#000000"
   background_opacity: 0.75

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "python3 -m http.server 5173 -d client/web"
+    "dev": "python3 -m http.server 5173 -d client/web",
+    "dev:quest": "python3 -m http.server 5174 -d client/quest-web"
   }
 }
