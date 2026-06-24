@@ -860,3 +860,34 @@ MVP で後回しにできる部分:
 - `server/whisper_worker.py`: Whisper 推論ラッパー。GPU マシン側で後続実装。
 - `server/stabilizer.py`: partial の安定化。Whisper 出力接続時に後続実装。
 - `config.yaml`: 実行環境ごとの設定。`config.example.yaml` から作成する。
+
+### GPU サーバー用スクリプト
+
+別の GPU 計算機で ASR サーバーを立ち上げる場合は、リポジトリを取得したあと次の順で実行する。
+ホストにシステムパッケージは入れず、Python 仮想環境と pip の CUDA/cuDNN wheel を使う。
+
+```bash
+cd Streaming
+scripts/setup_gpu_server.sh
+scripts/run_gpu_server.sh
+```
+
+既定では `config.yaml` を作成し、Whisper を `large-v3`, `cuda`, `float16` に設定する。
+モデルや起動先を変える場合は環境変数で指定できる。
+
+```bash
+ASR_WHISPER_MODEL=turbo scripts/setup_gpu_server.sh
+ASR_SERVER_HOST=0.0.0.0 ASR_SERVER_PORT=8000 scripts/run_gpu_server.sh
+```
+
+起動後の簡易確認は次で行う。
+
+```bash
+scripts/smoke_test_asr.sh ws://127.0.0.1:8000/ws
+```
+
+ngrok などで公開している場合は、公開 WebSocket URL を渡す。
+
+```bash
+scripts/smoke_test_asr.sh wss://<public-host>/ws
+```
