@@ -86,7 +86,7 @@ def _parse_config(message: dict[str, Any]) -> dict[str, Any]:
 
 
 def server_event(
-    event_type: Literal["ready", "config", "audio_received", "stopped", "error"],
+    event_type: Literal["ready", "config", "audio_received", "utterance_start", "partial", "final", "utterance_end", "stopped", "error"],
     **payload: Any,
 ) -> dict[str, Any]:
     return {"type": event_type, **payload}

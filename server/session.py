@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from time import monotonic
 from uuid import uuid4
 
@@ -21,6 +21,13 @@ class SessionState:
     bytes_received: int = 0
     chunks_received: int = 0
     pending_language: str | None = None
+    audio_buffer: bytearray = field(default_factory=bytearray)
+    last_decode_audio_ms: int = 0
+    last_vad_audio_ms: int = 0
+    last_partial_text: str = ""
+    finalized_sample: int = 0
+    utterance_index: int = 0
+    active_utterance_id: str | None = None
 
     @property
     def audio_ms_received(self) -> int:
@@ -33,6 +40,7 @@ class SessionState:
     def add_audio(self, data: bytes) -> None:
         self.bytes_received += len(data)
         self.chunks_received += 1
+        self.audio_buffer.extend(data)
 
     def apply_config(self, message: dict) -> dict:
         changed: dict = {}
