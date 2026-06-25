@@ -189,6 +189,34 @@ function floatToInt16(float32) {
   return int16;
 }
 
+const AUDACITY_COLORMAP = [
+  [0.0, [0, 0, 0]],
+  [0.08, [0, 7, 18]],
+  [0.18, [0, 28, 61]],
+  [0.34, [27, 28, 116]],
+  [0.5, [108, 32, 157]],
+  [0.66, [206, 31, 169]],
+  [0.78, [255, 65, 92]],
+  [0.9, [255, 155, 48]],
+  [1.0, [255, 244, 176]],
+];
+
+function audacityColor(value) {
+  const x = Math.max(0, Math.min(1, value / 255));
+  for (let i = 1; i < AUDACITY_COLORMAP.length; i += 1) {
+    const [rightStop, rightColor] = AUDACITY_COLORMAP[i];
+    const [leftStop, leftColor] = AUDACITY_COLORMAP[i - 1];
+    if (x <= rightStop) {
+      const t = (x - leftStop) / Math.max(0.0001, rightStop - leftStop);
+      const r = Math.round(leftColor[0] + (rightColor[0] - leftColor[0]) * t);
+      const g = Math.round(leftColor[1] + (rightColor[1] - leftColor[1]) * t);
+      const b = Math.round(leftColor[2] + (rightColor[2] - leftColor[2]) * t);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+  }
+  return "rgb(255, 244, 176)";
+}
+
 function drawSpectrogram() {
   if (!analyserNode) return;
   const canvas = els.spectrogram;
@@ -200,7 +228,7 @@ function drawSpectrogram() {
   for (let y = 0; y < canvas.height; y += 1) {
     const index = Math.floor((1 - y / canvas.height) * data.length);
     const value = data[index] || 0;
-    ctx.fillStyle = `rgb(${value}, ${Math.floor(value * 0.8)}, ${Math.max(20, 180 - value)})`;
+    ctx.fillStyle = audacityColor(value);
     ctx.fillRect(canvas.width - 1, y, 1, 1);
   }
   animationId = requestAnimationFrame(drawSpectrogram);

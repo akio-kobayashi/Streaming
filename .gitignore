@@ -1,8 +1,36 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-*/
 venv/
 node_modules/
 dist/
+build/
+*.spec
 .env
+.env.*
+!.env.example
 config.yaml
+
+# Windows build outputs
+*.exe
+*.msi
+*.dll
+*.pyd
+*.manifest
+
+# Generated archives and installer payloads
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Generated assets
+assets/*.ico
+assets/*.png
+
+# Local logs and private notes
+*.log
+local/
+private/
+secrets/

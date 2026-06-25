@@ -110,6 +110,7 @@ button:disabled {
   line-height: 1.35;
   font-weight: 700;
   letter-spacing: 0;
+  display: none;
 }
 
 .caption-lines {

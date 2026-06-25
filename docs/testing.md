@@ -9,9 +9,10 @@ Whisper/VAD 本体は GPU マシンで後続接続するため、まずはイン
 2. Python 依存関係のセットアップ
 3. サーバー単体テスト
 4. CLI クライアント送信テスト
-5. ブラウザクライアント送信テスト
-6. Quest 3 接続テスト
-7. GPU サーバー接続後の ASR 統合テスト
+5. Flet クライアント接続テスト
+6. ブラウザクライアント送信テスト
+7. Quest 3 接続テスト
+8. GPU サーバー接続後の ASR 統合テスト
 
 ## 1. 静的チェック
 
@@ -80,6 +81,25 @@ curl http://127.0.0.1:8000/health
 - 現段階では Whisper/VAD は未接続なので、音声認識結果はまだ返らない。
 - WebSocket で受信した音声チャンクに対して `audio_received` を返すところまで確認する。
 
+WebSocket の最小疎通だけを確認する場合は、Node.js の組み込み WebSocket を使った smoke test を使える。
+
+```bash
+npm run test:ws -- ws://127.0.0.1:8000/ws ja
+```
+
+外部 WSS で確認する場合:
+
+```bash
+npm run test:ws -- wss://<public-host>/ws ja
+```
+
+期待結果:
+
+- `ready` が返る。
+- `config` が返る。
+- 3 個の無音 PCM チャンクに対して `audio_received` が返る。
+- `stopped` が返る。
+
 ## 4. CLI クライアント送信テスト
 
 16 kHz / mono / 16-bit PCM WAV を用意する。
@@ -115,7 +135,58 @@ python -m client.cli.send_wav \
 {"type":"audio_received","session_id":"s-...","chunks_received":1,"bytes_received":1600,"audio_ms_received":50}
 ```
 
-## 5. ブラウザクライアント送信テスト
+## 5. Flet クライアント接続テスト
+
+Flet クライアントは PC 向け通常クライアント候補として使う。
+初期実装では、GUI から WSS に接続し、無音 PCM チャンクを送って `audio_received` を確認する。
+
+セットアップ:
+
+```bash
+python3 -m venv .venv-flet
+source .venv-flet/bin/activate
+pip install -r requirements-flet.txt
+```
+
+起動:
+
+```bash
+python -m client.flet.app
+```
+
+デスクトップアプリを npm から起動:
+
+```bash
+npm run dev:flet
+```
+
+補助的に Web 表示で起動:
+
+```bash
+python -m client.flet.app --web --host 127.0.0.1 --port 8550
+```
+
+Web 表示を npm から起動:
+
+```bash
+npm run dev:flet:web
+```
+
+確認手順:
+
+1. WebSocket URL に `wss://<public-host>/ws` を入れる。
+2. 言語を選ぶ。
+3. `Smoke test` を押す。
+4. Event log に `ready`, `config`, `audio_received`, `stopped` が出ることを確認する。
+5. 字幕表示欄に `audio_received` が表示されることを確認する。
+
+期待結果:
+
+- GUI から WSS 接続できる。
+- サーバーに PCM チャンクを送れる。
+- `audio_received` と `stopped` を受け取れる。
+
+## 6. ブラウザクライアント送信テスト
 
 通常ブラウザクライアントを起動する。
 
@@ -150,7 +221,7 @@ http://127.0.0.1:5173
 - `http://127.0.0.1` はブラウザ上でマイク許可される場合がある。
 - 別計算機や Quest 3 からマイク入力する場合は HTTPS/WSS を使う。
 
-## 6. Quest 3 接続テスト
+## 7. Quest 3 接続テスト
 
 Quest 3 では HTTPS/WSS を前提にする。
 初期検証では通常 Web クライアント、次に Quest 3 用サブプロジェクトを使う。
@@ -210,7 +281,7 @@ npm run dev:quest
 - 公開 URL を第三者に共有しない。
 - 長時間運用や本番用途では、認証付きのリバースプロキシや VPN を検討する。
 
-## 7. GPU サーバー接続後の ASR 統合テスト
+## 8. GPU サーバー接続後の ASR 統合テスト
 
 GPU 付きマシンで Whisper/VAD を接続したあとに行う。
 
