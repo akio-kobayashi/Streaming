@@ -1,13 +1,37 @@
 @echo off
 setlocal
 
-cd /d "%~dp0"
+pushd "%~dp0" >nul
+if errorlevel 1 (
+    echo Failed to enter project directory: %~dp0
+    pause
+    exit /b 1
+)
+
+set "PYTHON_CMD="
+where python >nul 2>nul
+if not errorlevel 1 set "PYTHON_CMD=python"
+
+if "%PYTHON_CMD%"=="" (
+    where py >nul 2>nul
+    if not errorlevel 1 set "PYTHON_CMD=py -3"
+)
+
+if "%PYTHON_CMD%"=="" (
+    echo Python 3 was not found.
+    echo Install Python 3 from https://www.python.org/downloads/windows/
+    echo Enable "Add python.exe to PATH", or install the Python Launcher.
+    popd >nul
+    pause
+    exit /b 1
+)
 
 if not exist ".venv-flet\Scripts\python.exe" (
     echo Creating Python virtual environment...
-    py -3 -m venv .venv-flet
+    %PYTHON_CMD% -m venv .venv-flet
     if errorlevel 1 (
-        echo Failed to create virtual environment. Install Python 3 and enable the py launcher.
+        echo Failed to create virtual environment.
+        popd >nul
         pause
         exit /b 1
     )
@@ -22,6 +46,7 @@ if errorlevel 1 (
     python -m pip install -r requirements-flet.txt
     if errorlevel 1 (
         echo Failed to install dependencies.
+        popd >nul
         pause
         exit /b 1
     )
@@ -31,8 +56,10 @@ echo Starting Streaming ASR desktop client...
 python -m client.flet.app %*
 if errorlevel 1 (
     echo Client exited with an error.
+    popd >nul
     pause
     exit /b 1
 )
 
+popd >nul
 endlocal
