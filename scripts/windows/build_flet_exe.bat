@@ -9,11 +9,11 @@ if errorlevel 1 (
 )
 
 set "PYTHON_CMD="
-where python >nul 2>nul
+python -c "import sys" >nul 2>nul
 if not errorlevel 1 set "PYTHON_CMD=python"
 
 if "%PYTHON_CMD%"=="" (
-    where py >nul 2>nul
+    py -3 -c "import sys" >nul 2>nul
     if not errorlevel 1 set "PYTHON_CMD=py -3"
 )
 
@@ -21,6 +21,7 @@ if "%PYTHON_CMD%"=="" (
     echo Python 3 was not found.
     echo Install Python 3 from https://www.python.org/downloads/windows/
     echo Enable "Add python.exe to PATH", or install the Python Launcher.
+    echo If the Microsoft Store python alias appears, disable it from Windows Settings.
     popd >nul
     pause
     exit /b 1

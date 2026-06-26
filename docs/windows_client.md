@@ -56,6 +56,7 @@ dist\StreamingASRClient\StreamingASRClient.exe
 
 - 初回の `.bat` 起動では依存関係のダウンロードが必要になる。
 - Python 3 を Windows に入れる場合は、インストーラで `Add python.exe to PATH` を有効にする。
+- `python` 実行時に Microsoft Store が案内される場合は、Windows の `Settings > Apps > Advanced app settings > App execution aliases` で `python.exe` / `python3.exe` のエイリアスを無効にする。
 - ネットワーク制限のある Windows 環境では、事前に `.venv-flet` を作成した配布パッケージを用意する。
 - `.exe` 化した場合でも、WebSocket 接続先や証明書、ファイアウォール設定は別途確認する。
 - マイク入力を追加した後は、Windows のマイク権限も確認する。
