@@ -175,15 +175,15 @@ npm run dev:flet:web
 確認手順:
 
 1. WebSocket URL に `wss://<public-host>/ws` を入れる。
-2. 言語を選ぶ。
-3. `Smoke test` を押す。
-4. Event log に `ready`, `config`, `audio_received`, `stopped` が出ることを確認する。
-5. 字幕表示欄に `audio_received` が表示されることを確認する。
+2. 言語と `Latency ms` を設定する。
+3. `Connect` を押し、Event log に `ready` と `config` が出ることを確認する。
+4. `Record` を押して PC マイク入力を送る。
+5. `Stop` を押し、Event log に `audio_received` と `stopped` が出ることを確認する。
 
 期待結果:
 
 - GUI から WSS 接続できる。
-- サーバーに PCM チャンクを送れる。
+- サーバーに PC マイク由来の PCM チャンクを送れる。
 - `audio_received` と `stopped` を受け取れる。
 
 ## 6. ブラウザクライアント送信テスト

@@ -27,9 +27,9 @@ Flet クライアントはサーバー内部には依存しない。
 ## テスト順
 
 1. `scripts/ws_smoke_test.js` で WSS 疎通確認。
-2. `client/flet/app.py` の smoke test で GUI から同じ疎通確認。
-3. Flet にマイク入力を追加する。
-4. `partial` / `final` の字幕表示を追加する。
+2. Flet でサーバーに接続する。
+3. Flet で PC マイク入力を送信する。
+4. `partial` / `final` の字幕表示を確認する。
 5. デスクトップアプリとしての起動手順を整える。
 
 ## 注意点
@@ -37,6 +37,7 @@ Flet クライアントはサーバー内部には依存しない。
 - Flet は PC 向け通常クライアントには向くが、Quest 3 パススルー字幕の本命とは分ける。
 - Quest 3 は `client/quest-web` または将来の Unity / Unreal クライアントで扱う。
 - Web 表示は補助的な検証用とし、通常利用はデスクトップアプリを主対象にする。
+- Flet 本番クライアントは `Connect`、`Record`、`Stop` による実マイク送信を基本動作とする。
 
 ## デスクトップアプリ起動
 
@@ -57,6 +58,13 @@ Windows のダブルクリック起動:
 ```text
 run_flet_client.bat
 ```
+
+起動後の基本操作:
+
+1. `WebSocket URL` と `Language`、`Latency ms` を設定する。
+2. `Connect` でサーバーに接続する。
+3. `Record` で PC マイク入力をサーバーへ送る。
+4. `Stop` で録音を止め、サーバーへ `stop` を送る。
 
 サーバー URL を指定する場合:
 

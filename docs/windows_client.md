@@ -59,6 +59,6 @@ dist\StreamingASRClient\StreamingASRClient.exe
 - `python` 実行時に Microsoft Store が案内される場合は、Windows の `Settings > Apps > Advanced app settings > App execution aliases` で `python.exe` / `python3.exe` のエイリアスを無効にする。
 - ネットワーク制限のある Windows 環境では、事前に `.venv-flet` を作成した配布パッケージを用意する。
 - `.exe` 化した場合でも、WebSocket 接続先や証明書、ファイアウォール設定は別途確認する。
-- マイク入力を追加した後は、Windows のマイク権限も確認する。
+- マイク入力を使うため、Windows のマイク権限も確認する。
 - アイコンの元データは `assets/app-icon.svg`、Windows 用 `.ico` は `scripts/windows/create_icon.py` で生成する。
 - PyInstaller で生成した `.exe` は未署名のため、Windows SmartScreen の警告が出る可能性がある。

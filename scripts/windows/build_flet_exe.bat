@@ -59,6 +59,7 @@ pyinstaller ^
   --icon assets\app-icon.ico ^
   --collect-all flet ^
   --collect-all websockets ^
+  --collect-all sounddevice ^
   client\flet\app.py
 
 if errorlevel 1 (
