@@ -13,6 +13,18 @@ import websockets
 DEFAULT_SERVER_URL = "ws://127.0.0.1:8000/ws"
 
 
+def center_alignment() -> Any:
+    if hasattr(ft, "Alignment"):
+        return ft.Alignment(0, 0)
+
+    alignment_module = getattr(ft, "alignment", None)
+    center = getattr(alignment_module, "center", None)
+    if center is not None:
+        return center
+
+    return None
+
+
 def main(page: ft.Page) -> None:
     page.title = "Streaming ASR Flet Client"
     page.theme_mode = ft.ThemeMode.DARK
@@ -39,7 +51,7 @@ def main(page: ft.Page) -> None:
         bgcolor=ft.Colors.BLACK,
         opacity=0.75,
         padding=12,
-        alignment=ft.alignment.center,
+        alignment=center_alignment(),
         border_radius=4,
         expand=True,
     )
