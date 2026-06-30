@@ -1,5 +1,6 @@
 __pycache__/
 *.py[cod]
+.DS_Store
 .venv/
 .venv-*/
 venv/
@@ -7,6 +8,8 @@ node_modules/
 dist/
 build/
 *.spec
+.pyinstaller-cache/
+.uv-cache/
 .env
 .env.*
 !.env.example

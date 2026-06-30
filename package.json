@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "python3 -m http.server 5173 -d client/web",
     "dev:quest": "python3 -m http.server 5174 -d client/quest-web",
+    "dev:qt": "scripts/macos/run_qt_client.sh",
     "dev:flet": "python3 -m client.flet.app",
     "dev:flet:web": "python3 -m client.flet.app --web --host 127.0.0.1 --port 8550",
     "test:ws": "node scripts/ws_smoke_test.js"

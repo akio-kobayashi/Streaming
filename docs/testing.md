@@ -9,7 +9,7 @@ Whisper/VAD 本体は GPU マシンで後続接続するため、まずはイン
 2. Python 依存関係のセットアップ
 3. サーバー単体テスト
 4. CLI クライアント送信テスト
-5. Flet クライアント接続テスト
+5. Qt クライアント接続テスト
 6. ブラウザクライアント送信テスト
 7. Quest 3 接続テスト
 8. GPU サーバー接続後の ASR 統合テスト
@@ -135,41 +135,37 @@ python -m client.cli.send_wav \
 {"type":"audio_received","session_id":"s-...","chunks_received":1,"bytes_received":1600,"audio_ms_received":50}
 ```
 
-## 5. Flet クライアント接続テスト
+## 5. Qt クライアント接続テスト
 
-Flet クライアントは PC 向け通常クライアント候補として使う。
-初期実装では、GUI から WSS に接続し、無音 PCM チャンクを送って `audio_received` を確認する。
+Qt クライアントは PC 向け通常クライアント候補として使う。
+Flet クライアントは実験扱いとし、今後の新機能は原則として Qt 版に実装する。
+初期実装では、GUI から WS / WSS に接続し、PC マイク入力を PCM チャンクとして送って `audio_received` を確認する。
 
 セットアップ:
 
 ```bash
-python3 -m venv .venv-flet
-source .venv-flet/bin/activate
-pip install -r requirements-flet.txt
+python3 -m venv .venv-qt
+source .venv-qt/bin/activate
+pip install -r requirements-qt.txt
 ```
 
 起動:
 
 ```bash
-python -m client.flet.app
+python -m client.qt.app --server-url ws://127.0.0.1:8000/ws
 ```
 
 デスクトップアプリを npm から起動:
 
 ```bash
-npm run dev:flet
+npm run dev:qt -- --server-url ws://127.0.0.1:8000/ws
 ```
 
-補助的に Web 表示で起動:
+macOS では先に Qt 専用 venv を作る。
 
 ```bash
-python -m client.flet.app --web --host 127.0.0.1 --port 8550
-```
-
-Web 表示を npm から起動:
-
-```bash
-npm run dev:flet:web
+RESET_QT_VENV=1 scripts/macos/setup_qt_client.sh
+scripts/macos/run_qt_client.sh --self-test
 ```
 
 確認手順:
@@ -178,12 +174,14 @@ npm run dev:flet:web
 2. 言語と `Latency ms` を設定する。
 3. `Connect` を押し、Event log に `ready` と `config` が出ることを確認する。
 4. `Record` を押して PC マイク入力を送る。
-5. `Stop` を押し、Event log に `audio_received` と `stopped` が出ることを確認する。
+5. 入力レベルメータとスペクトログラムが動くことを確認する。
+6. `Stop` を押し、Event log に `audio_received` と `stopped` が出ることを確認する。
 
 期待結果:
 
 - GUI から WSS 接続できる。
 - サーバーに PC マイク由来の PCM チャンクを送れる。
+- ローカル音声入力に応じてレベルメータとスペクトログラムが更新される。
 - `audio_received` と `stopped` を受け取れる。
 
 ## 6. ブラウザクライアント送信テスト
