@@ -1,19 +1,19 @@
 # Windows Desktop Client
 
-Windows ユーザー向けには、Flet クライアントをダブルクリックで起動できるようにする。
-初期配布では `.bat` ランチャーを使い、必要に応じて後続で `.exe` 化する。
+Windows ユーザー向けデスクトップクライアントの主開発は Qt 版へ移す。
+Flet 版の `.bat` / `.exe` 配布手順は実験版の記録として残す。
 
 ## 方式
 
 ### 方式 A: BAT ランチャー
 
-`run_flet_client.bat` をダブルクリックして起動する。
+`run_flet_client.bat` をダブルクリックして Flet 実験版を起動する。
 
 特徴:
 
 - 初回起動時に `.venv-flet` を作る。
 - 初回起動時に `requirements-flet.txt` をインストールする。
-- 2 回目以降はそのまま Flet デスクトップアプリを起動する。
+- 2 回目以降はそのまま Flet 実験版デスクトップアプリを起動する。
 - Python 3 がインストールされている必要がある。
 - `python` コマンドが見つからない場合は `py -3` にフォールバックする。
 - WSL の `\\wsl.localhost\...` 配下から実行された場合でも、一時ドライブに割り当てて起動する。
@@ -33,6 +33,7 @@ run_flet_client.bat --server-url wss://<public-host>/ws
 ### 方式 B: EXE 化
 
 Python を入れていない利用者向けには `.exe` 配布を検討する。
+ただし、本線は Qt 版へ移行するため、この手順は Flet 実験版の参考扱いとする。
 まずは PyInstaller で検証する。
 ビルド時には `assets/app-icon.ico` を生成し、アプリのアイコンとしてバンドルする。
 
@@ -48,9 +49,10 @@ dist\StreamingASRClient\StreamingASRClient.exe
 
 ## 推奨する段階
 
-1. 開発者・研究室内: `run_flet_client.bat`
-2. 外部テスター: PyInstaller 版 `.exe`
-3. 継続運用: 署名付きインストーラまたは更新機構付き配布
+1. 開発者・研究室内: Qt 版を優先して検証する。
+2. Flet 比較検証: `run_flet_client.bat`
+3. Flet 外部テスター: PyInstaller 版 `.exe`
+4. 継続運用: Qt 版の署名付きインストーラまたは更新機構付き配布
 
 ## 注意点
 

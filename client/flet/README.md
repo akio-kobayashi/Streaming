@@ -1,7 +1,8 @@
 # Flet Client
 
-Flet を使った通常クライアント用サブプロジェクト。
-Quest 3 / WebXR 検証用の `client/web` / `client/quest-web` とは分け、PC から使う字幕表示・設定 UI・接続確認用アプリとして育てる。
+Flet を使った実験用クライアント。
+PC 向け通常クライアントの主開発は `client/qt` に移す。
+このサブプロジェクトは、過去実装の確認、比較検証、軽微な接続確認用として残す。
 
 ## 目的
 
@@ -10,13 +11,15 @@ Quest 3 / WebXR 検証用の `client/web` / `client/quest-web` とは分け、PC
 - `partial` / `final` / `stable_text` / `unstable_text` を受け取る。
 - 放送字幕風の字幕表示を行う。
 - 文字サイズ、文字色、背景色、行数、1 行文字数などを設定できるようにする。
+- Flet でどこまで実用 UI を再現できるかを比較対象として記録する。
 
 ## 位置づけ
 
 - `client/cli`: 自動テスト、WAV 送信、疎通確認
 - `client/web`: ブラウザ検証、Quest Browser の初期検証
 - `client/quest-web`: Quest 3 / WebXR 向け
-- `client/flet`: PC 向け通常クライアント、デスクトップアプリ
+- `client/qt`: PC 向け通常クライアント、デスクトップアプリ
+- `client/flet`: 実験用デスクトッププロトタイプ
 
 ## セットアップ
 
@@ -72,9 +75,9 @@ http://127.0.0.1:8550
 
 ## 実装順
 
-1. WSS 接続確認と `ready` / `config` / `audio_received` の表示。
-2. 字幕オーバーレイ設定 UI。
-3. `partial` / `final` の字幕表示。
-4. マイク入力と PCM 変換。
-5. デスクトップアプリとしての起動方法整理。
-6. パッケージ化と配布手順。
+今後は新機能を原則として `client/qt` 側に実装する。
+Flet 側は以下の用途に限定する。
+
+1. 既存挙動の再確認。
+2. Qt 版との比較。
+3. 接続処理やメッセージ処理の軽微な検証。

@@ -1,5 +1,6 @@
 __pycache__/
 *.py[cod]
+.DS_Store
 .venv/
 .venv-*/
 venv/
@@ -7,6 +8,9 @@ node_modules/
 dist/
 build/
 *.spec
+.pyinstaller-cache/
+.uv-cache/
+.cache/
 .env
 .env.*
 !.env.example
@@ -27,7 +31,10 @@ config.yaml
 
 # Generated assets
 assets/*.ico
+assets/*.icns
 assets/*.png
+client/gesture_caption/models/*.task
+client/quest-web/config.local.json
 
 # Local logs and private notes
 *.log
